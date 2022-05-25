@@ -9,6 +9,8 @@ The project renders a Voronoi diagram as an exercise in OpenGL development. This
 
 The diagram can be regenerated with Lloyd's relaxation by pressing 'g', reset with 50 new nodes by pressing 'r', or reset with 100 new nodes by pressing 't'. Various parts of the graph's rendering can be disabled by pressing 'u', 'j', and 'b', and reenabled by pressing 'y', 'h', and 'v'.
 
+https://user-images.githubusercontent.com/11843720/170187910-f9e5a8e9-2e10-479a-a0c1-349571271f81.mp4
+
 Dependencies
 ===
 This project has the following dependencies: GLFW, GLAD, and GLM for graphics, MyGAL for Voronoi diagram handling, and mapbox's earcut.hpp for polygon triangulation/tesselation of said Voronoi diagrams. There is no implied endorsement from any of these dependencies, and each has their own license.
