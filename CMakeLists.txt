@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(opengl_test)
+project(voronoi)
 
 set(CMAKE_CXX_STANDARD 14)
 

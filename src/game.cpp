@@ -24,12 +24,12 @@ Game::Game(unsigned int width, unsigned int height)
 #endif
     glfwWindowHint(GLFW_RESIZABLE, true);
 
-    window_ = glfwCreateWindow(width_, height_, "TheGame", nullptr, nullptr);
+    window_ = glfwCreateWindow(width_, height_, "Voronoi", nullptr, nullptr);
     glfwMakeContextCurrent(window_);
+    //set unique cursor for the window
     unsigned char pixels[CURSOR_SIZE * CURSOR_SIZE * 4];
     memset(pixels, 0xff, sizeof(pixels));
 
-    //set unique cursor for the window
     GLFWimage image;
     image.width = CURSOR_SIZE;
     image.height = CURSOR_SIZE;

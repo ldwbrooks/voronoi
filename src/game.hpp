@@ -22,8 +22,7 @@ enum class GameState : int {
     MENU   = 2
 };
 
-// Initial size of the player
-constexpr glm::vec2 PLAYER_SIZE(100.0f, 20.0f);
+//Size of the cursor
 constexpr unsigned int CURSOR_SIZE = 4;
 
 /*

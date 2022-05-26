@@ -1,4 +1,4 @@
-Physics Game
+Voronoi Project
 ===
 
 This is a hobby project coded in C++ using OpenGL, "licensed" in the public domain.
