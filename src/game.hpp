@@ -23,7 +23,7 @@ enum class GameState : int {
 };
 
 //Size of the cursor
-constexpr unsigned int CURSOR_SIZE = 4;
+constexpr unsigned int CURSOR_SIZE = 8;
 
 /*
     This class takes care of rendering and managing the general state of the "game"
@@ -43,6 +43,8 @@ public:
     void Render(float dt);
     //handle key presses
     void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode);
+    //handle button presses
+    void MouseCallback(GLFWwindow* window, int button, int action, int mode);
     //handle window resize
     void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -66,6 +68,7 @@ protected:
     unsigned int            width_, height_;
 
     glm::vec2 screen_mouse_coord_;
+    glm::vec2 screen_click_coord_;
 
     glm::vec2 frame_pos_;
     std::atomic<bool> should_end_;

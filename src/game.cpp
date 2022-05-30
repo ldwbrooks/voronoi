@@ -12,7 +12,8 @@ Game::Game(unsigned int width, unsigned int height)
     : game_state_(GameState::ACTIVE),
       voronoi_(glm::vec2(0.0f), glm::vec2(static_cast<float>(width), static_cast<float>(height))), 
       keys_(), width_(width), height_(height),
-      frame_pos_(0.0f,0.0f), voronoi_reset_presses_(0),
+      screen_click_coord_(0.0f, 0.0f),
+      frame_pos_(0.0f, 0.0f), voronoi_reset_presses_(0),
       draw_voronoi_color_(true), draw_voronoi_border_(true), draw_voronoi_point_(true)
 { 
     glfwInit();
@@ -51,6 +52,12 @@ Game::Game(unsigned int width, unsigned int height)
         me->KeyCallback( window, key, scancode, action, mods );
     };
     glfwSetKeyCallback( window_, keyCallback );
+
+    auto mouseCallback = []( GLFWwindow* window, int key, int action, int mods ) {
+        auto me = (Game*)glfwGetWindowUserPointer( window );
+        me->MouseCallback( window, key, action, mods );
+    };
+    glfwSetMouseButtonCallback(window_, mouseCallback );
 
     auto framebufferSizeCallback = []( GLFWwindow* window, int width, int height ) {
         auto me = (Game*)glfwGetWindowUserPointer(window );
@@ -171,6 +178,12 @@ void Game::ProcessInput(float dt)
             draw_voronoi_point_ = true;
         if (keys_[GLFW_KEY_U])
             draw_voronoi_point_ = false;
+        if (screen_click_coord_ != glm::vec2(0.0f))
+        {
+            voronoi_.AddPoint(screen_click_coord_);
+            //reset click coord
+            screen_click_coord_ = glm::vec2(0.0f);
+        }
         // //get mouse position
         // {
         //     //get cursor position
@@ -241,6 +254,32 @@ void Game::KeyCallback(GLFWwindow* window, int key, int scancode, int action, in
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Game::MouseCallback(GLFWwindow* window, int button, int action, int mode)
+{
+    if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
+    {
+        double xpos, ypos;
+        //getting cursor position
+        glfwGetCursorPos(window, &xpos, &ypos);
+        //adjust for cursor size
+        xpos += CURSOR_SIZE / 2.0f;
+        ypos += CURSOR_SIZE / 2.0f;
+        xpos -= frame_pos_.x;
+        ypos -= frame_pos_.y;
+        //convert window coord to screen coord
+        int curr_width, curr_height;
+        glfwGetWindowSize(window_, &curr_width, &curr_height);
+        double width_ratio = static_cast<double>(width_) / static_cast<double>(curr_width);
+        xpos = xpos * width_ratio;
+        double height_ratio = static_cast<double>(height_) / static_cast<double>(curr_height);
+        ypos = ypos * height_ratio;
+        //convert window coord to a percentage between 0.0 and 1.0 for the Voronoi diagram
+        xpos /= static_cast<double>(width_);
+        ypos /= static_cast<double>(height_);
+        screen_click_coord_ = glm::vec2(xpos, ypos);
+    }
 }
 
 void Game::FramebufferSizeCallback(GLFWwindow* window, int width, int height)

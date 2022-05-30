@@ -56,11 +56,12 @@ void Voronoi::ResetDiagram(int num_points)
 
 void Voronoi::GenerateDiagram(const std::vector<mygal::Vector2<double>>& points)
 {
-    auto algorithm = mygal::FortuneAlgorithm<double>(points); // Initialize an instance of Fortune's algorithm
-    algorithm.construct(); // Construct the diagram
-    algorithm.bound(mygal::Box<double>{-0.05, -0.05, 1.05, 1.05}); // Bound the diagram
-    diagram_ = std::make_unique<mygal::Diagram<double>>(algorithm.getDiagram()); // Get the constructed diagram
-    diagram_->intersect(mygal::Box<double>{0.00, 0.00, 1.00, 1.00}); // Compute the intersection between the diagram and a box
+    points_ = points; //Save points so that the user can add a new point to the existing points later
+    auto algorithm = mygal::FortuneAlgorithm<double>(points); //Initialize an instance of Fortune's algorithm
+    algorithm.construct(); //Construct the diagram
+    algorithm.bound(mygal::Box<double>{-0.05, -0.05, 1.05, 1.05}); //Bound the diagram
+    diagram_ = std::make_unique<mygal::Diagram<double>>(algorithm.getDiagram()); //Get the constructed diagram
+    diagram_->intersect(mygal::Box<double>{0.00, 0.00, 1.00, 1.00}); //Compute the intersection between the diagram and a box
     UpdateLines();
 }
 
@@ -68,6 +69,23 @@ void Voronoi::RelaxDiagram()
 {
     auto relaxed_points = diagram_->computeLloydRelaxation();
     GenerateDiagram(relaxed_points);
+}
+
+void Voronoi::AddPoint(glm::vec2 point)
+{
+    mygal::Vector2<double> pt(point.x, point.y);
+    //check for equality between the new point's y and existing points' y
+    //if equal, offset it just a little so that the algorithms can handle it
+    for (auto& existing_point : points_)
+    {
+        if (pt.y == existing_point.y)
+        {
+            pt.y += 0.001f;
+        }
+    }
+    points_.push_back(pt);
+    colors_.push_back(GenerateColor());
+    GenerateDiagram(points_);
 }
 
 namespace

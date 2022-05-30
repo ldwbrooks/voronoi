@@ -7,7 +7,7 @@ Voronoi
 ---
 The project renders a Voronoi diagram as an exercise in OpenGL development. This makes use of the MyGAL library to handle Voronoi diagram generation, and earcut.hpp for converting the Voronoi diagram's polygons into triangles for my basic OpenGL triangle renderer to render to the screen.
 
-The diagram can be regenerated with Lloyd's relaxation by pressing 'g', reset with 50 new nodes by pressing 'r', or reset with 100 new nodes by pressing 't'. Various parts of the graph's rendering can be disabled by pressing 'u', 'j', and 'b', and reenabled by pressing 'y', 'h', and 'v'.
+The diagram can be regenerated with Lloyd's relaxation by pressing 'g', reset with 50 new nodes by pressing 'r', or reset with 100 new nodes by pressing 't'. Various parts of the graph's rendering can be disabled by pressing 'u', 'j', and 'b', and reenabled by pressing 'y', 'h', and 'v'. The user can create new points in the Voronoi diagram by left-clicking anywhere in the window. 
 
 https://user-images.githubusercontent.com/11843720/170187910-f9e5a8e9-2e10-479a-a0c1-349571271f81.mp4
 
