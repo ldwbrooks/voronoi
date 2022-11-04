@@ -1,11 +1,10 @@
 #include "game.hpp"
 
-const unsigned int SCREEN_WIDTH = 1500;
-const unsigned int SCREEN_HEIGHT = 1000;
-
-
 int main(int argc, char *argv[])
 {
+    constexpr unsigned int SCREEN_WIDTH = 1500;
+    constexpr unsigned int SCREEN_HEIGHT = 1000;
+    
     ldwb::Game TheGame(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     //initialize the game
